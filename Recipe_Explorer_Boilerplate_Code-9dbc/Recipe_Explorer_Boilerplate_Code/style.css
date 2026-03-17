@@ -12,56 +12,50 @@ body {
 
 /* ---------- 2) App Layout Wrapper ---------- */
 .app-wrapper {
-  /* TODO 4: Limit the max width so content doesn't stretch too much */
-  /* Hint: try max-width: 1100px; */
+max-width: 1100px;
 }
 
 /* ---------- 3) Recipe Cards ---------- */
 .recipe-card {
-  /* TODO 5: Add smooth animation for hover */
-  /* Hint: transition: transform 0.25s ease, box-shadow 0.25s ease; */
 
-  /* TODO 6: Show hand cursor to indicate it’s clickable */
-  /* Hint: cursor: pointer; */
+transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+  
+cursor: pointer; 
 }
 
 .recipe-card:hover {
-  /* TODO 7: Lift card slightly on hover */
-  /* Hint: transform: translateY(-4px); */
+transform: translateY(-4px); 
 
-  /* TODO 8: Add a soft shadow on hover */
-  /* Hint: box-shadow: 0 10px 25px rgba(15, 23, 42, 0.18); */
+
+box-shadow: 0 10px 25px rgba(15, 23, 42, 0.18);
 }
 
 /* ---------- 4) Recipe Card Image ---------- */
 .card-img-top {
-  /* TODO 9: Crop image nicely without stretching */
-  /* Hint: object-fit: cover; */
+object-fit: cover; 
 
-  /* TODO 10: Set a fixed height for uniform cards */
-  /* Hint: height: 200px; */
+height: 200px; 
 }
 
 /* ---------- 5) Tag Pills ---------- */
 .tag-pill {
-  /* TODO 11: Make tags small + rounded like pills */
-  /* Hints:
+
      font-size: 0.75rem;
      border-radius: 999px;
      padding: 0.15rem 0.6rem;
-  */
+
 }
 
 /* ---------- 6) Hero Subtitle ---------- */
 .hero-subtitle {
-  /* TODO 12: Slightly smaller subtitle text */
-  /* Hint: font-size: 0.9rem; */
+
+font-size: 0.9rem;
 }
 
 /* ---------- 7) Suggested Search Terms ---------- */
 .suggested-terms span {
-  /* TODO 13: Make each term look like a clickable chip */
-  /* Hints:
+
      display: inline-block;
      background-color: #e2e8f0;
      border-radius: 999px;
@@ -69,28 +63,27 @@ body {
      margin: 0.15rem;
      font-size: 0.8rem;
      cursor: pointer;
-  */
+  
 }
 
 .suggested-terms span:hover {
-  /* TODO 14: Change chip color on hover */
-  /* Hint: background-color: #cbd5f5; */
+
+background-color: #cbd5f5;
 }
 
 /* ---------- 8) Modal Instructions Scroll ---------- */
 .instructions-box {
-  /* TODO 15: Make long instructions scroll inside the modal */
-  /* Hints:
+
+
      max-height: 260px;
      overflow-y: auto;
      padding-right: 4px;
-  */
+
 }
 
 /* ---------- 9) Mobile Responsiveness ---------- */
 @media (max-width: 576px) {
   .card-img-top {
-    /* TODO 16: Reduce image height for smaller screens */
-    /* Hint: height: 180px; */
+height: 180px;
   }
 }

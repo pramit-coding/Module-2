@@ -1,184 +1,79 @@
-/* =========================
-   RECIPE EXPLORER (Boilerplate)
-   Comments-only version
-   ========================= */
+const $ = (s) => document.querySelector(s);
+const searchInput = $("#searchInput"), searchBtn = $("#searchBtn");
+const results = $("#results"), message = $("#message"), suggested = $(".suggested-terms");
 
-/* ---------- 1) Small helper to select elements ----------
-   Goal: Make it easy to grab HTML elements using CSS selectors.
-   Example: $("#searchInput") -> gets the input box
----------------------------------------------------------- */
+const api = (url) => fetch(url).then((r) =>{ if (!r.ok) throw 0; return r.json(); });
+const setMsg = (t="") => (message.textContent = t);
+const esc = (s="") => String(s).replaceAll('"',"&quot;");
 
-// Create a shortcut function that returns document.querySelector(...)
-
-
-
-/* ---------- 2) Grab important UI elements ----------
-   We will need:
-   - Input box (where user types dish name)
-   - Search button
-   - Results section (where cards show)
-   - Message area (status text)
-   - Suggested terms container (optional)
------------------------------------------------------- */
-
-// Store references to:
-// searchInput, searchBtn, results, message, suggested
-
-
-
-/* ---------- 3) API helper function ----------
-   Goal: One function that:
-   - calls fetch(url)
-   - checks if response is OK
-   - converts response to JSON
-   - throws an error if something fails
------------------------------------------------- */
-
-// Create api(url) helper that returns JSON data
-
-
-
-/* ---------- 4) Message helper ----------
-   Goal: Show text in the message area easily
------------------------------------------------- */
-
-// Create setMsg(text) helper that sets message.textContent
-
-
-
-/* ---------- 5) Safety helper: escape text ----------
-   Goal: Prevent breaking HTML when we insert API text into template strings.
-   Example: dish name may contain quotes or special characters.
----------------------------------------------------- */
-
-// Create esc(text) helper to make strings safe for HTML
-
-
-
-/* ---------- 6) Event listeners ----------
-   Goal: Start searching when:
-   - user clicks Search button
-   - user presses Enter in input
-   - user clicks a suggested term (optional)
------------------------------------------------- */
-
-// Add click event on searchBtn -> call search()
-// Add keyup event on searchInput:
-//   if key is Enter -> call search()
-// If suggested terms area exists:
-//   - detect click on a span[data-term]
-//   - set input value to that term
-//   - call search()
-
-
-
-/* ---------- 7) Main search function (async) ----------
-   Goal:
-   - read the search word
-   - validate it
-   - call the search API endpoint
-   - show cards in results
-   - handle “no results” and errors safely
------------------------------------------------------- */
+searchBtn.addEventListener("click", search);
+searchInput.addEventListener("keyup", (e) => e.key ==="Enter" && search());
+suggested?.addEventListener("click", (e) => {
+   const span = e.target.closet("span[data-term]"); if (!span) return;
+   searchInput.value = span.dataset.term; search();
+});
 
 async function search() {
-  // Get the typed value from input and trim extra spaces
-  // Clear old results
+   const q = searchInput.value.trim();
+   results.innerHTML = "";
+   if (!q) return setMsg("Please type a dish name to search.");
+   setMsg("Searching recipies...");
+   try {
+      const data = await api(`https://www/themealdb.com/api/json/v1/1/search.php?s=$
+         {encodeURIComponent(q)}`);
+         const meals = data.meals || [];
+         if (!meals.length) return setMsg("No recipies found. Try another dish,");
+         setMsg(`Found ${meals.length} recipie(s).`);
+         results.innerHTML - meals.map(card).join("");
+   } catch { setMsg("Something went wrong. Please try again.");}
+};
 
-  // If input is empty:
-  //   show "Please type a dish name..."
-  //   stop the function (return)
-
-  // Show "Searching recipes..."
-
-  // Try to call the API:
-  //   build URL with encodeURIComponent(query)
-  //   await api(url)
-  //   get meals list (if null, use empty array)
-
-  // If meals list is empty:
-  //   show "No recipes found..."
-  //   stop the function (return)
-
-  // If meals exist:
-  //   show "Found X recipe(s)."
-  //   convert meals into HTML cards using map(card).join("")
-  //   put into results.innerHTML
-
-  // Catch errors:
-  //   show "Something went wrong..."
-}
-
-
-
-/* ---------- 8) Card builder function ----------
-   Goal:
-   - take one meal object
-   - return one Bootstrap card HTML string
-   - include:
-     - image
-     - title
-     - area badge + category badge
-     - view details button with data-id
------------------------------------------------- */
-
-// Create a function card(meal) that returns card HTML string
+const card  = (m) =>`
+   <div class = "col-12 col-sm-6 col-md-4 col-lg-3 d-flex">
+      <div class = "card recipe-card h-100 w-100">
+      <img src = "${esc(m.strMealThumb)}" class = "card-img-top" alt=${esc(m.strMeal)}">
+      <div class="card-body d-flex flex-column">
+         <h6 calss = card-title mb-1 fw-semibold">${esc(m.strMeal)}</h6>
+         <p class = "card-text text-muted mb-2">
+            <span class = "badge bg-light text-dark border tag-pill">${esc(m.strArea || "World cuisine")}</span>
+            <span class = "badge bg-secondary tag-pill">${esc(m.strCatergory || "Dish")}</span>
+         </p>
+         <button class = "btn btn-outline-primary btn-sm mt-auto view-btn" data-id = "${m.idMeal}"> view details</btn>
+         </div>
+      </div>
+   </div>`;
 
 
+document.addEventListener("click", (e) => {
 
-/* ---------- 9) Event delegation for dynamic buttons ----------
-   Goal:
-   - “View Details” buttons are created after search
-   - so we listen on document and detect clicks
------------------------------------------------------------ */
+   const btn = e.target.closest(".view-btn");
 
-// document.addEventListener("click", ...)
-// Find closest element with .view-btn
-// If not found -> return
-// Read data-id
-// Call fetchRecipeDetails(id)
+   if (!btn) return;
 
+   fetchRecipeDetails(btn.dataset.id);
 
-
-/* ---------- 10) Fetch recipe details by ID (async) ----------
-   Goal:
-   - call lookup endpoint with ?i=id
-   - get the first meal from data.meals
-   - if not found -> show error
-   - if found -> open modal using buildAndShowModal(meal)
------------------------------------------------------------- */
+});
 
 async function fetchRecipeDetails(id) {
-  // Show "Loading recipe details..."
 
-  // Try:
-  //   call lookup endpoint using await api(url)
-  //   extract meal = data.meals?.[0]
+   setMsg("Loading recipe details...");
 
-  // If meal is missing:
-  //   show "Unable to load details."
-  //   stop the function (return)
+   try {
 
-  // If meal exists:
-  //   call buildAndShowModal(meal)
-  //   clear message
+      const data = await api(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
 
-  // Catch:
-  //   show "Something went wrong fetching details."
+      const meal = data.meals?.[0];
+
+      if (!meal) return setMsg("Unable to load details.");
+
+      buildAndShowModal(meal);
+
+      setMsg("");
+
+   } catch {
+
+      setMsg("Something went wrong fetching details.");
+
+   }
+
 }
-
-
-
-/* ---------- 11) Modal builder (placeholder) ----------
-   Goal:
-   - build ingredients list (loop 1 to 20)
-   - show image, title, instructions
-   - show YouTube link if present
-   - then open Bootstrap modal
------------------------------------------------------- */
-
-// function buildAndShowModal(meal) {
-//   // Build ingredients list
-//   // Insert HTML into modalBody
-//   // Open Bootstrap modal
-// }
