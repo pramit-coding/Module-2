@@ -6,9 +6,89 @@ html {font-size: 16px;}
     backdrop-filter: blur(10px);
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     margin-bottom: 20px;
+    justify-content: center;
 }
 .navbar-brand{
     width:100%;
     display:flex;
     justify-content:center;
+}
+
+.nav-link {
+    color:#fff
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover{
+    color:rgba(255, 255, 255, 0.7);
+}
+
+header,footer{
+    padding:10px 0;
+    text-align: center;
+    color: white;
+}
+
+button.btn{
+    color:#fff;
+    padding: 0.5rem 1 rem;
+    font-size: 0.9rem;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+}
+button:hover,.btn:hover{
+    border-color: rgba(0,0,0,0.16);
+    box-shadow: 0 0  20px rgba(255, 255, 255, 0.7);
+}
+
+.input-group.date{
+    background: rgba(0,0,0,0.16);
+    border-radius: 16pxx;
+    box-shadow: 0 4px 30px rgba(0,0,0,0,0.1);
+    backdrop-filter: blur(10.2px);
+    -webkit-backdrop-filter: blur(1010.2px);
+    border: 1px solid rgba(0,0,0,0.08)
+}
+.input-group.date.form-control{
+    background: transparent;
+    color:#fff;
+    box-shadow:none;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+}
+input[type = "date"] {
+    color:white;
+    background-color: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+@media (max-width: 767px){
+    html{font-size: 14px;}
+}
+
+@media (min-width: 768px){
+    html{font-size:16px;}
+}
+
+@media (min-width: 992px){
+    html{font-size:19px;}
+}
+@media (min-width: 1200px){
+    html{font-size:20px;}
+}
+
+.container{
+    max-width:900px;
+    margin:0 auto;
+}
+
+h1{
+    font-size: 2rem;
+}
+h3{
+    font-size: 1.5rem;
+}
+p{
+    font-size: 1rem;
 }
